@@ -22,7 +22,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        config-file: wjmurphy/pipeline_security/.github/sast_configurations/codeql.yml
+        config-file: ./.github/sast_configurations/codeql.yml
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
