@@ -2,6 +2,10 @@ name: "CodeQL"
 
 on:
   workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
 
 jobs:
   analyze:
@@ -16,13 +20,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3 
+      uses: actions/checkout@v3
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        config-file: wjmurphy/pipeline_security/.github/sast_configurations/codeql.yml
+        config-file: ${{ inputs.config-path }}
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
