@@ -9,9 +9,9 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     continue-on-error: true
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    permissions:
+    # permissions:
       # actions: read
-      contents: read
+      # contents: read
       # security-events: write
 
     steps:
@@ -22,7 +22,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        config-file: ./.github/sast_configurations/codeql.yml
+        config-file: wjmurphy/pipeline_security/.github/sast_configurations/codeql.yml
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
