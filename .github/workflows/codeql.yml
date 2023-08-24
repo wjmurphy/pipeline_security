@@ -22,6 +22,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Checkout configurations
+      uses: actions/checkout@v3
+      with:
+        repository: wjmurphy/pipeline_security
+        path: sast_configurations
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
