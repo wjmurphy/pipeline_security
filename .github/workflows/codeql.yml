@@ -10,9 +10,9 @@ jobs:
     continue-on-error: true
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
     permissions:
-      actions: read
+      # actions: read
       contents: read
-      security-events: write
+      # security-events: write
 
     steps:
     - name: Checkout repository
