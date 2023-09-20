@@ -9,7 +9,7 @@ jobs:
     uses: wjmurphy/pipeline_security/.github/workflows/codeql.yml@main
     with:
       config-path: sast_configurations/.github/sast_configurations/codeql.yml
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+    # permissions:
+    #   actions: read
+    #   contents: read
+    #   security-events: write
