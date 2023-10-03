@@ -10,34 +10,35 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     continue-on-error: true
-    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    # permissions:
-      # actions: read
-      # contents: read
-      # security-events: write
+    timeout-minutes: 120
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Checkout configurations
-      uses: actions/checkout@v3
-      with:
-        repository: wjmurphy/pipeline_security
-        path: sast_configurations
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ matrix.language }}
-        config-file: ${{ inputs.config-path }}
+        config: |
+          # initial configurations for CodeQL should be looking for high precision
+          # and high severity issues to ensure developers aren't compromised by false positives.
+
+          query-filters:
+            - include:
+                # alerts should only be raised for security issues to prevent being distracted with none security issues.
+                "tags contain": security
+                # High precision findings give the best likelihood that issues found are true positives.
+                precision:
+                  - high
+                  - very-high
+                # A security severity score of >=7 is classed as high or critical. This is an additional step to
+                # ensure that developers are not distracted by low severity, none issues.
+                security-severity: /([7-9]|10)\.(\d)+/
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
